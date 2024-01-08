@@ -172,6 +172,10 @@ class PyMenu:
         self.submenu_proc.add_separator()
         self.submenu_proc.add_command(label='Run', command=pyplis_worker.process_sequence)
         self.submenu_proc.add_command(label='Stop processing', command=self.stop_sequence_processing)
+        self.submenu_proc.add_separator()
+        self.submenu_proc.add_command(label='Start watching directory', command=pyplis_worker.start_watching_dir)
+        self.submenu_proc.add_command(label='Stop watching directory', command=pyplis_worker.stop_watching_dir)
+
 
         self.menus[tab].add_command(label='Background model', command=plume_bg.generate_frame)
         self.menus[tab].add_command(label='Settings', command=process_settings.generate_frame)
