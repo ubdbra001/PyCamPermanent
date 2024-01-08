@@ -3939,6 +3939,16 @@ class PyplisWorker:
         fit_data = np.hstack((self.calib_pears.stop, np.flip(self.calib_pears.calib_coeffs), mse, r2))
         self.fit_data = np.append(self.fit_data, fit_data[np.newaxis, :], axis = 0)
 
+    def start_watching_dir(self):
+        
+        self.start_watching(self.img_dir)
+        self.doas_worker.start_watching(self.spec_dir)
+
+    def stop_watching_dir(self):
+        
+        self.stop_watching()
+        self.doas_worker.stop_watching()
+
 
 class ImageRegistration:
     """
