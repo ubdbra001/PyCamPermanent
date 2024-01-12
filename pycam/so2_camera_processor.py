@@ -2411,9 +2411,9 @@ class PyplisWorker:
         # If we don't update fov search then we just update current cal object with new image (as long as we have
         # a doas calibration)
         elif self.got_doas_fov:
-            if len(self.doas_worker.results) < 1:
-                print('No DOAS data available for CD-tau calibration')
-                return
+#            if len(self.doas_worker.results) < 1:
+#                print('No DOAS data available for CD-tau calibration')
+#                return
 
             doas_fov = self.fov
 
