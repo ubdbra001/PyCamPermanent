@@ -2430,6 +2430,9 @@ class PyplisWorker:
                     # Get CD for current time
                     cd = self.doas_worker.results.get(img_time)
                     time.sleep(0.5)
+
+                if cd is None: raise KeyError(f"spectra for {img_time} not found")
+
                 # Get index for cd_errors
                 cd_err = self.doas_worker.results.fit_errs[
                     np.where(self.doas_worker.results.index.array == img_time)[0][0]]
