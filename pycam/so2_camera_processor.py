@@ -2423,9 +2423,14 @@ class PyplisWorker:
             tau = tau_fov.mean()
 
             try:
-                # Get CD for current time
-                cd = self.doas_worker.results[img_time]
-                # Get index for cd_err
+                cd = self.doas_worker.results.get(img_time)
+
+                timeout = datetime.datetime.now() + datetime.timedelta(seconds = 30)
+                while (cd is None) and (datetime.datetime.now() < timeout):
+                    # Get CD for current time
+                    cd = self.doas_worker.results.get(img_time)
+                    time.sleep(0.5)
+                # Get index for cd_errors
                 cd_err = self.doas_worker.results.fit_errs[
                     np.where(self.doas_worker.results.index.array == img_time)[0][0]]
             except BaseException as e:
