@@ -8,7 +8,7 @@ from time import sleep
 from re import findall
 import sys
 
-def get_avail_datetimes(source, file_match = "*.npy"):
+def get_avail_datetimes(source, file_match = "**/*Plume.npy"):
     """Get a list of all available unique datetimes"""
     # Look in dir and list all spec (npy) files
     spec_files = source.glob(file_match)
@@ -19,7 +19,7 @@ def get_avail_datetimes(source, file_match = "*.npy"):
 
 def get_files(source, dtime):
     """Get a list of files that contain a specific datetime"""
-    return source.glob("*" + dtime + "*")
+    return source.glob("**/*" + dtime + "*Plume*")
 
 def transfer_data(source, dest, delay = 5):
     """
@@ -30,13 +30,13 @@ def transfer_data(source, dest, delay = 5):
     for dtime in dtimes:
         files_gen = get_files(source, dtime)
         for file in files_gen:
-            file_source = file
-            file_dest = dest.joinpath(file.name)
+            file_loc = file.relative_to(source)
+            file_dest = dest.joinpath(file_loc)
             lock_path = create_lock(file_dest)
-            copyfile(file_source, file_dest)
+            copyfile(file, file_dest)
             remove_lock(lock_path)
 
-            print(file.name, ": ", source,  " -> ", dest, sep = None)
+            print(file_loc, ": ", source,  " -> ", file_dest, sep = None)
             
         print('\r')
         sleep(delay)
@@ -52,6 +52,7 @@ def create_lock(file_path):
     Creates lock file to ensure that file being transferred is not accessed until fully available
     """
     lock_path = file_path.with_suffix(".lock")
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
     with open(lock_path, "w") as file:
         pass
 
