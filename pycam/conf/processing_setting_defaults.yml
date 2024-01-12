@@ -5,6 +5,7 @@
 # General settings
 img_dir: .\pycam\Data\Images\Villarrica\Seq_1\
 dark_img_dir: .\pycam\Data\Images\Villarrica\Cal_1\
+watch_dir: .\pycam\Data\Images\Villarrica\Seq_1\
 spec_dir: .\pycam\tests\test_data\test_spectra\
 dark_spec_dir: .\pycam\tests\test_data\test_spectra\
 bg_A_path: .\pycam\Data\Images\Villarrica\Cal_1\2018-03-26T143723_fltrA_1ag_1399829ss_Clear.png
