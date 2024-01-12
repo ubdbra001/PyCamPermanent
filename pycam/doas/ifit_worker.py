@@ -1301,7 +1301,7 @@ class IFitWorker:
         # Wait until lockfile is removed
         pathname_lock = pathname.replace(ext, '.lock')
         while os.path.exists(pathname_lock):
-            pass
+            time.sleep(0.5)
 
         print('IFit worker: New file found {}'.format(pathname))
         # Pass path to queue
