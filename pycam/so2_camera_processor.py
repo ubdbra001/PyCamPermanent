@@ -3941,13 +3941,13 @@ class PyplisWorker:
 
     def start_watching_dir(self):
         
-        self.start_watching(self.img_dir)
-        self.doas_worker.start_watching(self.spec_dir)
+        self.doas_worker.start_watching(self.watch_dir)
+        self.start_watching(self.watch_dir)
 
     def stop_watching_dir(self):
         
-        self.stop_watching()
         self.doas_worker.stop_watching()
+        self.stop_watching()
 
 
 class ImageRegistration:
