@@ -2423,15 +2423,14 @@ class PyplisWorker:
             tau = tau_fov.mean()
 
             try:
-                cd = self.doas_worker.results.get(img_time)
-
                 timeout = datetime.datetime.now() + datetime.timedelta(seconds = 30)
-                while (cd is None) and (datetime.datetime.now() < timeout):
+                while (datetime.datetime.now() < timeout):
                     # Get CD for current time
                     cd = self.doas_worker.results.get(img_time)
+                    if cd is not None: break
                     time.sleep(0.5)
-
-                if cd is None: raise KeyError(f"spectra for {img_time} not found")
+                else:
+                    raise KeyError(f"spectra for {img_time} not found")
 
                 # Get index for cd_errors
                 cd_err = self.doas_worker.results.fit_errs[
