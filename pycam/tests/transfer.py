@@ -3,7 +3,7 @@
 # Script to simulate pycam data transfer
 
 from pathlib import Path
-from shutil import copyfile
+from shutil import copyfile, rmtree
 from time import sleep
 from re import findall
 import sys
@@ -34,6 +34,7 @@ def transfer_data(source, dest, delay = 5):
             file_dest = dest.joinpath(file_loc)
             lock_path = create_lock(file_dest)
             copyfile(file, file_dest)
+            sleep(0.1)
             remove_lock(lock_path)
 
             print(file_loc, ": ", source,  " -> ", file_dest, sep = None)
@@ -43,8 +44,11 @@ def transfer_data(source, dest, delay = 5):
 
 def clear_dest(dest):
     """
-    Makes sure the dest directory is empty before transfer
+    Clears the destination directory of directories and files
     """
+    # Delete all dirs including contents
+    [rmtree(dir) for dir in dest.iterdir() if dir.is_dir()]
+    # Delete all individual files
     [file.unlink() for file in dest.iterdir() if file.is_file()]
 
 def create_lock(file_path):
