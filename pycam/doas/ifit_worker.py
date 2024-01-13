@@ -1019,7 +1019,7 @@ class IFitWorker:
                 current_time = self.results.index[-1]
                 if current_time.minute == 0 and current_time.second == 0:
                     new_hour = current_time.hour - 1
-                    start_time == current_time.replace(hour=new_hour)
+                    start_time = current_time.replace(hour=new_hour)
                 else:
                     start_time = current_time.replace(minute=0, second=0)
                 idx_start = np.argmin(np.abs(self.results.index - start_time))
