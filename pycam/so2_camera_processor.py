@@ -770,6 +770,7 @@ class PyplisWorker:
         :return:
         """
         self.reset_buff()
+        self.first_image = True
         self.idx_current = -1       # Used to track what the current index is for saving to image buffer (buffer is only added to after first processing so we start at -1)
         self.idx_current_doas = 0   # Used for tracking current index of doas points
         self.got_doas_fov = False
@@ -3774,6 +3775,8 @@ class PyplisWorker:
 
             # Incremement current index so that buffer is in the right place
             self.idx_current += 1
+            if self.first_image:
+                self.first_image = False
 
     def start_watching(self, directory, recursive=True):
         """
