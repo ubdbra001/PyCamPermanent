@@ -3741,6 +3741,7 @@ class PyplisWorker:
                 if not self.first_image and self.img_A.meta['start_acq'].day != img_time.day:
                     print('New image comes from a different day. Finalising previous day of processing.')
                     self.finalise_processing(save_doas=True)
+                    self.got_doas_fov = self.fix_fov or False
                 # Every 30 minutes (defined by self.save_freq) we dave emission rate data, but don't save doas results here,
                 # Let doas_worker define when doas_results are saved, since DOAS times may not be exactly in time with
                 # image times but we want to save doas data exactly on the hour and 30 minute marks
