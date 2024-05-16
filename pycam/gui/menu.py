@@ -754,8 +754,8 @@ class LoadFrame(LoadSaveProcessingSettings):
         calibration_wind.ils_frame.load_ILS()
 
         self.pyplis_worker.apply_config()
-        self.pyplis_worker.load_sequence(pyplis_worker.img_dir, plot_bg=False)
-        self.doas_worker.load_dir(prompt=False, plot=True)
+        self.pyplis_worker.load_sequence(self.pyplis_worker.img_dir, plot_bg=False)
+        self.doas_worker.load_dir(spec_dir = self.pyplis_worker.spec_dir, prompt=False, plot=True)
 
     def reset_pcs_lines(self):
         """Reset current PCS lines"""
