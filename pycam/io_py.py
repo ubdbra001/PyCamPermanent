@@ -70,14 +70,28 @@ def save_spectrum(wavelengths, spectrum, filename):
     os.remove(lock)
 
 
-def load_spectrum(filename):
+def load_spectrum(filename, attempts = 3):
     """Essentially a wrapper to numpy load function, with added filename check
-    :param  filename:   str     Full path of spectrum to be loaded"""
+    :param  filename:   str     Full path of spectrum to be loaded
+    :param  attempts:   int     Number of attempts to load the spectrum
+    """
+
     try:
         check_filename(filename, SpecSpecs().file_ext.split('.')[-1])
     except:
         raise
-    spec_array = np.load(filename)
+
+    while attempts > 0:
+        try:
+            spec_array = np.load(filename)
+            break
+        except PermissionError as e:
+            time.sleep(0.2)
+            attempts -= 1
+            continue
+    else:
+        raise e
+
     wavelengths = spec_array[0, :]
     spectrum = spec_array[1, :]
     return wavelengths, spectrum
