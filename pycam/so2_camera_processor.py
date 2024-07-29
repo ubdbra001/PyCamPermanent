@@ -41,7 +41,6 @@ import os
 import cv2
 from skimage import transform as tf
 import warnings
-import traceback
 from ruamel.yaml import YAML
 warnings.simplefilter("ignore", UserWarning)
 warnings.simplefilter("ignore", RuntimeWarning)
@@ -1045,23 +1044,21 @@ class PyplisWorker:
 
         self.prep_img(img, img_path, band, plot, temporary)
 
-
     def get_img(self, img_path, attempts = 1):
         
         while attempts > 0:
             # Try and load the image
-            img = pyplis.image.Img(img_path, self.load_img_func)
-
-            # If successful then leave the loop
-            if img.img is not None:
+            try:
+                img = pyplis.image.Img(img_path, self.load_img_func)
+            except FileNotFoundError as e:
+                err = e
+                time.sleep(0.2)
+                attempts -= 1
+            else:
                 break
-            
-            # Otherwise wait half a second and decrease the number of attempts left
-            time.sleep(0.1)
-            attempts -= 1
         else:
             # This will run once the number of repeats is 0
-            raise FileNotFoundError(f"Image from {img_path} could not be loaded. Skipping pair.")
+            raise err
 
         img.filename = img_path.split('\\')[-1].split('/')[-1]
         img.pathname = img_path
@@ -3829,8 +3826,9 @@ class PyplisWorker:
             # Process the pair
             try:
                 self.process_pair(img_path_A, img_path_B, plot=self.plot_iter)
-            except FileNotFoundError:
-                traceback.print_exc()
+            except FileNotFoundError as e:
+                print(e)
+                print("Skipping pair")
                 continue
 
             # Save all images that have been requested
