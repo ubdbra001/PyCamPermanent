@@ -9,7 +9,14 @@ import numpy as np
 
 def load_picam_png(file_path, meta={}, **kwargs):
     """Load PiCam png files and import meta information"""
-    img = np.array(cv2.imread(file_path, -1))
+
+    raw_img = cv2.imread(file_path, cv2.IMREAD_UNCHANGED)
+    
+    # cv2 returns None if file failed to load
+    if raw_img is None:
+        raise FileNotFoundError(f"Image from {file_path} could not be loaded.") 
+
+    img = np.array(raw_img)
 
     # Split both forward and backward slashes, to account for both formats
     file_name = file_path.split('\\')[-1].split('/')[-1]
