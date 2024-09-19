@@ -367,7 +367,7 @@ class FTPClient:
 
             # Transfer wittypi file and script schedule file to local, so GUI is accurate when it's opened
             # TODO THIS HASN'T BEEN TESTED!!!!! (18/04/2023)
-            self.retrieve_schedule_files()
+            #self.retrieve_schedule_files()
             return True
         except BaseException as e:
             print('FTP connection encountered error - file transfer is inactive')
