@@ -366,6 +366,9 @@ class PyplisWorker:
         # (specified by a path relative to pycam location)
         if not os.path.isabs(config_dir):
             return path
+        
+        if path == '':
+            raise FileNotFoundError("Path not specified")
         # If it's an absolute path then just use as is
         elif os.path.isabs(path):
             return path
