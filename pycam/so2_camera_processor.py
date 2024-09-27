@@ -454,7 +454,12 @@ class PyplisWorker:
             "grid_max_ppmm": "grid_max_ppmm",
             "grid_increment_ppmm": "grid_increment_ppmm",
             "spec_recal_time": "recal_ld_mins",
-            "LDF": "LDF"
+            "LDF": "LDF",
+            "start_stray_wave": "start_stray_wave",
+            "end_stray_wave": "end_stray_wave",
+            "start_fit_wave": "start_fit_wave",
+            "end_fit_wave": "end_fit_wave",
+            "shift": "shift"
         }
         
         current_params = {key: getattr(self.doas_worker, value)
