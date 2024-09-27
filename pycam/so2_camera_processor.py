@@ -351,10 +351,12 @@ class PyplisWorker:
             # Not the most elegent way to do this, but it'll do for now.
             if type(config_value) is str:
                 new_value = self.expand_config_path(config_value, config_dir)
+                self.check_path(new_value)
                 self.config[path_param] = new_value
             else:
                 for idx, val in enumerate(config_value):
                     new_value = self.expand_config_path(val, config_dir)
+                    self.check_path(new_value)
                     self.config[path_param][idx] = new_value
 
     def expand_config_path(self, path, config_dir):
@@ -373,6 +375,10 @@ class PyplisWorker:
         # Otherwise prepend the path with the location of the config file
         else:
             return os.path.join(config_dir, path)
+
+    def check_path(self, path, path_param):
+        if not os.path.exists(path):
+            raise FileNotFoundError(f"File path does not exist for {path_param}: {path}")
 
     def save_all_pcs(self, save_dir):
         """Save all the currently loaded/drawn pcs lines to files and update config"""
