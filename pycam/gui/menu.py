@@ -735,7 +735,13 @@ class LoadFrame(LoadSaveProcessingSettings):
                 initialdir=self.init_dir)
         
         if len(filename) > 0:
-            self.pyplis_worker.load_config(filename, "user")
+            try:
+                self.pyplis_worker.load_config(filename, "user")
+            except FileNotFoundError:
+                messagebox.showerror("Config load failure",
+                                     "Config load unsuccessful.\n"
+                                     "Please check the paths in the config file and try again.")
+                return
 
             self.reload_config()
 
