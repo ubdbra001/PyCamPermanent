@@ -68,6 +68,11 @@ fov_rad: 0
 centre_pix_x: 0
 centre_pix_y: 0
 doas_cal_adjust_offset: 0
+start_stray_wave: 293
+end_stray_wave: 296
+start_fit_wave: 308
+end_fit_wave: 318
+shift: 0
 
 # Plume speed algorithms
 flow_raw: 1
