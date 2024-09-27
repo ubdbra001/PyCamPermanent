@@ -326,10 +326,11 @@ class PyplisWorker:
 
         file_path = os.path.normpath(file_path)
         with open(file_path, "r") as file:
-            self.raw_configs[conf_name] = yaml.load(file)
+            raw_config = yaml.load(file)
 
+        checked_config = self.check_config_paths(file_path, raw_config)
+        self.raw_configs[conf_name] = checked_config
         self.config.update(self.raw_configs[conf_name])
-        self.check_config_paths(file_path)
 
     def apply_config(self, subset = None):
         """take items in config dict and set them as attributes in pyplis_worker"""
@@ -338,26 +339,27 @@ class PyplisWorker:
         else: 
             [setattr(self, key, value) for key, value in self.config.items()]
 
-    def check_config_paths(self, config_path):
+    def check_config_paths(self, config_path, raw_config):
         config_dir = os.path.dirname(config_path)
         for path_param in path_params:
             # Skip if cal_type_int is not pre-loaded
-            if path_param == "cal_series_path" and self.config["cal_type_int"] != 3:
+            if path_param == "cal_series_path" and raw_config["cal_type_int"] != 3:
                 continue
 
-            config_value = self.config.get(path_param)
+            config_value = raw_config.get(path_param)
             # Value could be a string or list of strings, we want to do the same thing to both but iterate over
             # the list of strings.
             # Not the most elegent way to do this, but it'll do for now.
             if type(config_value) is str:
                 new_value = self.expand_config_path(config_value, config_dir)
-                self.check_path(new_value)
-                self.config[path_param] = new_value
+                self.check_path(new_value, path_param)
+                raw_config[path_param] = new_value
             else:
                 for idx, val in enumerate(config_value):
                     new_value = self.expand_config_path(val, config_dir)
-                    self.check_path(new_value)
-                    self.config[path_param][idx] = new_value
+                    self.check_path(new_value, path_param)
+                    raw_config[path_param][idx] = new_value
+        return raw_config
 
     def expand_config_path(self, path, config_dir):
         """ Converts paths string absolute path if needed"""
