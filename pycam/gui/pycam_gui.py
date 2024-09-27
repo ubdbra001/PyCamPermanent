@@ -124,6 +124,8 @@ class PyCam(ttk.Frame):
         pyplis_worker.doas_worker = doas_worker     # Set DOAS worker to pyplis attribute
         pyplis_worker.load_sequence(pyplis_worker.img_dir, plot_bg=False)
         doas_worker.load_dir(prompt=False, plot=True)
+        doas_worker.get_wavelengths(pyplis_worker.config)
+        self.spec_wind.spec_frame.update_all()
         doas_worker.process_doas(plot=True)
 
         # Sets FTP_output_dir if it exists 

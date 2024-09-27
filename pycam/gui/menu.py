@@ -759,6 +759,8 @@ class LoadFrame(LoadSaveProcessingSettings):
         self.pyplis_worker.apply_config()
         self.pyplis_worker.load_sequence(pyplis_worker.img_dir, plot_bg=False)
         self.doas_worker.load_dir(self.pyplis_worker.spec_dir, prompt=False, plot=True)
+        self.doas_worker.get_wavelengths(pyplis_worker.config)
+        self.main_gui.spec_wind.spec_frame.update_all()
 
         # This will work but doesn't cover all edge cases
         if self.pyplis_worker.config.get("FTP_output_dir") is not None:
