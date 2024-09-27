@@ -36,6 +36,12 @@ class SpecWorker:
         self.stretch_tol = 0            # As shift_tol but for stretch
         self.stretch_adjuster = 0.0001  # Factor to scale stretch (needed if different spectrometers have different pixel resolutions otherwise the stretch applied may be in too large or too small stages)
         self.stretch_resample = 100     # Number of points to resample the spectrum by during stretching
+        
+        self._start_stray_wave = 293    # Wavelength space stray light window definitions
+        self._end_stray_wave = 296
+        self._start_fit_wave = 308       # Update fit window to more reasonable starting size (initial setting was to create a big grid
+        self._end_fit_wave = 318
+        
         self._start_stray_pix = None    # Pixel space stray light window definitions
         self._end_stray_pix = None
         self._start_fit_pix = None  # Pixel space fitting window definitions

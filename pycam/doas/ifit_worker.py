@@ -53,12 +53,8 @@ class IFitWorker(SpecWorker):
 
         self.ppmm_conversion = 2.652e15   # convert absorption cross-section in cm2/molecule to ppm.m (MAY NEED TO CHANGE THIS TO A DICTIONARY AS THE CONVERSION MAY DIFFER FOR EACH SPECIES?)
 
-        self._start_stray_wave = 293    # Wavelength space stray light window definitions
-        self._end_stray_wave = 296
         self._start_fit_wave_init = 300  # Wavelength space fitting window definitions       Set big range to start Analyser
         self._end_fit_wave_init = 340
-        self._start_fit_wave = 308       # Update fit window to more reasonable starting size (initial setting was to create a big grid
-        self._end_fit_wave = 318
         self.start_fit_wave_2 = 312      # Second fit window (used in light dilution correction)
         self.end_fit_wave_2 = 322
 

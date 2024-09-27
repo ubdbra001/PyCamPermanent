@@ -48,11 +48,6 @@ class DOASWorker(SpecWorker):
         # Initial Definitions
         # ======================================================================================================================
         self.ppmm_conversion = 2.7e15   # convert absorption cross-section in cm2/molecule to ppm.m (MAY NEED TO CHANGE THIS TO A DICTIONARY AS THE CONVERSION MAY DIFFER FOR EACH SPECIES?)
-        
-        self._start_stray_wave = 280    # Wavelength space stray light window definitions
-        self._end_stray_wave = 290
-        self._start_fit_wave = 305  # Wavelength space fitting window definitions
-        self._end_fit_wave = 320
 
         self.ref_spec_used = spec_types    # Reference spectra we actually want to use at this time (similar to ref_spec_types - perhaps one is obsolete (or should be!)
         self.ref_spec_dict = spec_dict
