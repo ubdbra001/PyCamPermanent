@@ -7,9 +7,11 @@ from __future__ import (absolute_import, division)
 
 from pycam.setupclasses import CameraSpecs, SpecSpecs
 from pycam.utils import make_circular_mask_line, calc_dt, get_horizontal_plume_speed
-from pycam.io_py import save_img, save_emission_rates_as_txt, save_so2_img, save_so2_img_raw, save_pcs_line, save_light_dil_line
+from pycam.io_py import (
+    save_img, save_emission_rates_as_txt, save_so2_img, save_so2_img_raw,
+    save_pcs_line, save_light_dil_line, load_picam_png
+)
 from pycam.directory_watcher import create_dir_watcher
-from pycam.img_import import load_picam_png
 
 import pyplis
 from pyplis import LineOnImage

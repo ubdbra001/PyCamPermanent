@@ -9,6 +9,7 @@ from .utils import check_filename
 import numpy as np
 import os
 import datetime
+from datetime import datetime as dt
 import time
 from tkinter import filedialog
 try:
@@ -27,6 +28,11 @@ try:
 except ModuleNotFoundError:
     print('OpenCV could not be imported, there may be some issues caused by this')
 from pandas import DataFrame
+
+
+
+
+
 
 def save_img(img, filename, ext='.png'):
     """Saves image
@@ -219,6 +225,30 @@ def load_light_dil_line(filename, color='blue', line_id='line'):
     line = load_pcs_line(filename, color, line_id)
     return line
 
+def load_picam_png(file_path, meta={}, **kwargs):
+    """Load PiCam png files and import meta information"""
+
+    raw_img = cv2.imread(file_path, cv2.IMREAD_UNCHANGED)
+    
+    # cv2 returns None if file failed to load
+    if raw_img is None:
+        raise FileNotFoundError(f"Image from {file_path} could not be loaded.") 
+
+    img = np.array(raw_img)
+
+    # Split both forward and backward slashes, to account for both formats
+    file_name = file_path.split('\\')[-1].split('/')[-1]
+
+    # Update metadata dictionary
+    meta["bit_depth"] = 10
+    meta["device_id"] = "picam-1"
+    meta["file_type"] = "png"
+    meta["start_acq"] = dt.strptime(file_name.split('_')[0], "%Y-%m-%dT%H%M%S")
+    meta["texp"] = float([f for f in file_name.split('_') if 'ss' in f][0].replace('ss', '')) * 10 ** -6  # exposure in seconds
+    meta["read_gain"] = 1
+    meta["pix_width"] = meta["pix_height"] = 5.6e-6  # pixel width in m
+
+    return img, meta
 
 def save_fov_txt(filename, fov_obj):
     """
