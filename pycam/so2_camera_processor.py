@@ -357,6 +357,10 @@ class PyplisWorker:
                 continue
 
             config_value = raw_config.get(path_param)
+
+            if config_value is None:
+                raise ValueError(f"{path_param} is None")
+
             # Value could be a string or list of strings, we want to do the same thing to both but iterate over
             # the list of strings.
             # Not the most elegent way to do this, but it'll do for now.
