@@ -359,7 +359,8 @@ class PyplisWorker:
             config_value = raw_config.get(path_param)
 
             if config_value is None:
-                raise ValueError(f"{path_param} is None")
+                print(f"{path_param} is not present in config. Retaining default and skipping to next config parameter")
+                continue
 
             # Value could be a string or list of strings, we want to do the same thing to both but iterate over
             # the list of strings.
