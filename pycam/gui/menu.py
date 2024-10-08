@@ -772,6 +772,15 @@ class LoadFrame(LoadSaveProcessingSettings):
             cfg.current_dir_img.root_dir = ftp_output_dir
             cfg.current_dir_spec.root_dir = ftp_output_dir
 
+        if pyplis_worker.missing_path_params:
+            # Generate formatted string of missing params
+            miss_param_str = ''.join([f"- {par}\n" for par in pyplis_worker.missing_path_params])
+
+            messagebox.showwarning("Missing path params not updated",
+                                   "The following path parameters were not specified in the loaded config file\n"
+                                   "Default values were retained\n"
+                                   f"{miss_param_str}")
+
     def reset_pcs_lines(self):
         """Reset current PCS lines"""
 
