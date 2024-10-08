@@ -316,6 +316,7 @@ class PyplisWorker:
 
         self.geom_dict = {}
 
+        self.missing_path_params = []
         self.config = {}
         self.raw_configs = {}
         self.load_default_conf_failed = False
@@ -334,6 +335,7 @@ class PyplisWorker:
     def load_config(self, file_path, conf_name):
         """load in a yml config file and place the contents in config attribute"""
 
+        self.missing_path_params = []
         file_path = os.path.normpath(file_path)
         with open(file_path, "r") as file:
             raw_config = yaml.load(file)
@@ -359,7 +361,7 @@ class PyplisWorker:
             config_value = raw_config.get(path_param)
 
             if config_value is None:
-                print(f"{path_param} is not present in config. Retaining default and skipping to next config parameter")
+                self.missing_path_params.append(path_param)
                 continue
 
             # Value could be a string or list of strings, we want to do the same thing to both but iterate over
@@ -374,6 +376,13 @@ class PyplisWorker:
                     new_value = self.expand_config_path(val, config_dir)
                     self.check_path(new_value, path_param)
                     raw_config[path_param][idx] = new_value
+
+        if self.missing_path_params:
+            miss_param_str = [f"- {par}" for par in self.missing_path_params]
+
+            print("The following parameters were not present in the loaded config:",
+                  *miss_param_str, "Default values were retained.", sep = "\n")
+
         return raw_config
 
     def expand_config_path(self, path, config_dir):
