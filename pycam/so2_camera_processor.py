@@ -3202,6 +3202,13 @@ class PyplisWorker:
                     get_horizontal_plume_speed(self.opt_flow, self.dist_img_step, self.PCS_lines_all[0], filename=filename)
 
         return self.flow, self.velo_img
+    
+    def calculate_ICA_mass(self, cds, distarr):
+        # Calculations for ICA Mass
+        C = 100**2 * MOL_MASS_SO2 / N_A
+        ICA_Mass = (sum(cds * distarr) * C) / 1000
+
+        return ICA_Mass
 
     def calculate_emission_rate(self, img, flow=None, nadeau_speed=None, plot=True):
         """
@@ -3297,6 +3304,8 @@ class PyplisWorker:
                 props = LocalPlumeProperties(line.line_id)    # Plume properties local to line
                 verr = None                 # Used and redefined later in flow_histo/flow_hybrid
                 dx, dy = None, None         # Generated later. Instantiating here optimizes by preventing repeats later
+
+                ICA_Mass = self.calculate_ICA_mass(cds, distarr) 
 
                 # Cross-correlation emission rate retrieval
                 if self.velo_modes['flow_glob']:
